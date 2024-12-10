@@ -1,5 +1,6 @@
 
 // Example of a React component (essentially a function where you return HTML)
+
 function Header() {
     return (
         <header>
@@ -9,7 +10,6 @@ function Header() {
                     <li>Home</li>
                     <li>About</li>
                     <li>Contact</li>
-                    <li>Login</li>
                 </ul>
             </nav>
         </header>
