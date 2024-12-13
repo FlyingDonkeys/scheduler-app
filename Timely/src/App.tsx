@@ -1,8 +1,9 @@
-import Header from "./Tutorial Components/Header.tsx";
-import Features from "./Tutorial Components/Features.tsx";
-import Footer from "./Tutorial Components/Footer.tsx";
-import Card from "./Tutorial Components/Card.tsx";
+import Header from "./Components/Header.tsx";
+import Features from "./Components/Features.tsx";
+import Footer from "./Components/Footer.tsx";
+import Card from "./Components/Card.tsx";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import TaskForm from "./Components/TaskForm.tsx";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Card/>} />
                 <Route path="/about" element={<Features/>} />
+                <Route path="/addTask" element={<TaskForm/>} />
             </Routes>
             <Footer/>
         </Router>
