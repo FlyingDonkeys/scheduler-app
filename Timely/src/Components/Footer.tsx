@@ -7,7 +7,7 @@ function Footer() {
                     <img className="rounded-full hover:shadow-lg" src="https://avatars.githubusercontent.com/u/80049074?s=96&v=4" alt="My Profile Picture"></img>
                 </a>
 
-                <p className="text-sm text-gray-600 dark:text-gray-300">© Copyright 2021. All Rights Reserved.</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">© Copyright {currentDate()}. All Rights Reserved.</p>
 
                 <div className="flex -mx-2">
                     <a href="#" className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400" aria-label="Reddit">
@@ -42,6 +42,8 @@ function Footer() {
     );
 }
 
-
+function currentDate() {
+    return new Date().getFullYear();
+}
 
 export default Footer;
