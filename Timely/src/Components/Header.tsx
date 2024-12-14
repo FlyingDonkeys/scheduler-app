@@ -1,4 +1,14 @@
 import { Link } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth";
+
+const handleSignOut = () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        // Sign-out successful.
+    }).catch((error) => {
+        // An error happened.
+    });
+}
 
 function Header(){
     return (
@@ -14,8 +24,9 @@ function Header(){
                 <Link to="/addTask"
                    className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6">Add Task</Link>
 
-                <a href="#"
-                   className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6">----</a>
+                <Link to="/"
+                   className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6"
+                    onClick={handleSignOut}>Sign Out</Link>
             </div>
         </nav>
     );

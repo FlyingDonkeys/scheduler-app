@@ -26,7 +26,7 @@ function MultilineInputField(props:InputFieldProps){
         <Container>
             <ThemeProvider theme={theme}>
                 <Typography variant="h6" gutterBottom>{props.questionText}</Typography>
-                <TextField id="outlined-multiline" label={props.helperText} variant="outlined" color="primary" sx={{ width: '300%'}} multiline/>
+                <TextField id="outlined-multiline" label={props.helperText} variant="outlined" color="primary" sx={{ width: '400%'}} multiline/>
             </ThemeProvider>
         </Container>
     );

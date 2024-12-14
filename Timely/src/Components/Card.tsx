@@ -2,7 +2,7 @@ import profPic from "../assets/img.png";
 
 function Card() {
     return (
-        <div className="container mx-auto pt-5">
+        <div className="container mx-auto pt-5" style={{height: '100vh'}}>
             <div className="card flex items-center bg-gray-100 rounded-lg shadow-md">
                 <img src={profPic} alt="Bronze Rank Icon" className="w-16 h-16 rounded-full"/>
                 <div>
