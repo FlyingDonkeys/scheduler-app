@@ -8,7 +8,7 @@ import {
 import Container from "@mui/material/Container";
 import {indigo} from "@mui/material/colors";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 
@@ -16,7 +16,8 @@ function SignInForm(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("‎");
+    const [signInError, setSignInError] = useState("‎");
+    const [signUpError, setSignUpError] = useState("‎");
 
     // Handle Sign-In Button Click
     const handleSignIn = async () => {
@@ -26,10 +27,26 @@ function SignInForm(){
             const user = userCredential.user;
             console.log("User signed in:", user);
         } catch (err: any) {
-            setError("Wrong email or password!");
-            console.error("Error signing in:", err);
+            setSignInError(err.code);
+            console.error("Error signing in:", err.code);
         }
     };
+
+    // Handle Sign-Up Button Click
+    const handleSignUp = async () => {
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed up
+                const user = userCredential.user;
+                console.log("User signed up:", user);
+            })
+            .catch((error) => {
+                setSignUpError(error.code);
+                console.error("Error signing in:", error.code);
+                // ..
+            });
+    }
 
     // Want to make the input field look nicer
     // Override the primary color
@@ -65,7 +82,7 @@ function SignInForm(){
                         <Grid2 display="flex" justifyContent="center" alignItems="center" columnSpacing={2}
                                className="py-2">
                             <Grid2>
-                                <Typography variant={"h6"} color={"error"}>{error}</Typography>
+                                <Typography variant={"h6"} color={"error"}>{signInError}</Typography>
                             </Grid2>
                         </Grid2>
 
@@ -84,7 +101,7 @@ function SignInForm(){
                         <Typography variant="h5" align={"center"} gutterBottom>Sign Up!</Typography>
                         <Grid2 display="flex" justifyContent="center" alignItems="center" className="py-2">
                             <Grid2>
-                                <TextField id="email" label="Email" variant="outlined"
+                                <TextField id="signUpEmail" label="Email" variant="outlined"
                                            onChange={(e) => setEmail(e.target.value)}/>
                             </Grid2>
                         </Grid2>
@@ -100,13 +117,13 @@ function SignInForm(){
                         <Grid2 display="flex" justifyContent="center" alignItems="center" columnSpacing={2}
                                className="py-2">
                             <Grid2>
-                                <Typography variant={"h6"} color={"error"}>{error}</Typography>
+                                <Typography variant={"h6"} color={"error"}>{signUpError}</Typography>
                             </Grid2>
                         </Grid2>
 
                         <Grid2 container alignItems="center" justifyContent="center" className="py-2">
                             <ThemeProvider theme={theme}>
-                                <Button variant="contained" color="primary" onClick={handleSignIn}>Sign In</Button>
+                                <Button variant="contained" color="primary" onClick={handleSignUp}>Sign Up</Button>
                             </ThemeProvider>
                         </Grid2>
                     </Grid2>

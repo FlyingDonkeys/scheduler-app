@@ -27,16 +27,23 @@ function App() {
     const app = initializeApp(firebaseConfig);
 
     const [user, setUser] = useState<User | null>(null); // Tracks the authenticated user
+    const [loading, setLoading] = useState(true); // Loading state
+
     const auth = getAuth(app);
 
     useEffect(() => {
         // Listen for auth state changes
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
+            setLoading(false);
         });
 
         return () => unsubscribe(); // Clean up the listener on unmount
     }, [auth]);
+
+    if (loading) {
+        return <div></div>; // Show a loading indicator
+    }
 
     return (
         user === null ? <>
@@ -49,7 +56,7 @@ function App() {
                             <Routes>
                                 <Route path="/" element={<Card/>} />
                                 <Route path="/about" element={<Features/>} />
-                                <Route path="/addTask" element={<TaskForm/>} />
+                                <Route path="/addTask" element={<TaskForm user={user}/>} />
                             </Routes>
                             <Footer/>
                         </Router>

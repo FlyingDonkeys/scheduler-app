@@ -19,11 +19,38 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {useState} from "react";
 import {indigo} from "@mui/material/colors";
 
-function TaskForm(){
+import { getFirestore } from "firebase/firestore";
+import {initializeApp} from "firebase/app";
+import {User} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+
+type TaskFormProps = {
+    user: User;
+}
+
+function TaskForm(taskFormProps: TaskFormProps){
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyANvNatS304vR5YDjA8r3hTRCYDmI9lK4k",
+        authDomain: "timely-67981.firebaseapp.com",
+        projectId: "timely-67981",
+        storageBucket: "timely-67981.firebasestorage.app",
+        messagingSenderId: "354706368157",
+        appId: "1:354706368157:web:7e6846998c8aa2abb85674",
+        measurementId: "G-S17C3JDCL5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
     const [highPriority, setHighPriority] = useState(false);
     const [mediumPriority, setMediumPriority] = useState(false);
     const [lowPriority, setLowPriority] = useState(false);
+
+    const [taskName, setTaskName] = useState("");
+    const [taskDescription, setTaskDescription] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
 
     const handleToggle = (buttonChoice: String) => {
         // Case 1: If user selects an already selected state, toggle between states
@@ -55,6 +82,20 @@ function TaskForm(){
         }
     }
 
+    const addTask = () => {
+        // Add a new document in collection "cities", the document id is auto generated!
+        setDoc(doc(db, "Users", taskFormProps.user.uid, "userTasks", taskName), {
+            taskName: {taskName},
+            taskDescription: {taskDescription},
+            country: "USA"
+        }).then(
+            () => {
+            console.log("Document successfully written!");
+        }).catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+    }
+
     // Want to make the input field look nicer
     // Override the primary color
     const theme = createTheme({
@@ -65,15 +106,32 @@ function TaskForm(){
         },
     });
 
+    // Allows task form to update the task name/description values
+    const processTextWithId = (text: string, id: string) => {
+        if (id === "taskName") {
+            setTaskName(text);
+        } else if (id === "taskDescription") {
+            setTaskDescription(text);
+        }
+    }
+
     return (
         <Container className="py-3" style={{height: '100vh'}}>
             <Typography variant="h4" align={"center"} gutterBottom>Add Task</Typography>
             <Grid2 container columnSpacing={2} className="py-2">
-                <Grid2>
-                    <InputField questionText="Task Title" helperText="Input task title"></InputField>
+                <Grid2 size={3}>
+                    <InputField id="taskName" questionText="Task Title" helperText="Input task title" processText={processTextWithId}></InputField>
+                </Grid2>
+                <Grid2 size={4}>
+                    <MultilineInputField id="taskDescription" questionText="Task Description" helperText="Input task description" processText={processTextWithId}></MultilineInputField>
+                </Grid2>
+            </Grid2>
+
+            <Grid2 container columnSpacing={2} className="py-2">
+                <Grid2 size={0.3}>
                 </Grid2>
                 <Grid2>
-                    <MultilineInputField questionText="Task Description" helperText="Input task description"></MultilineInputField>
+                    <FormHelperText sx={{color:"red"}}>Note that the task title must be unique.</FormHelperText>
                 </Grid2>
             </Grid2>
 
@@ -102,7 +160,7 @@ function TaskForm(){
 
             <Grid2 container alignItems="center" justifyContent="center">
                 <ThemeProvider theme={theme}>
-                    <Button variant="contained" color="primary">Add Task</Button>
+                    <Button variant="contained" color="primary" onClick={addTask}>Add Task</Button>
                 </ThemeProvider>
             </Grid2>
 

@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {indigo} from "@mui/material/colors";
 import {DateTimePicker} from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 // New data type that defines the shape of the props object
 // Question text is the question above the input field
@@ -25,11 +26,12 @@ const theme = createTheme({
 
 // Uses the type of this props object
 function DateInputField(props:InputFieldProps){
+
     return (
         <Container>
             <ThemeProvider theme={theme}>
                 <Typography variant="h6" gutterBottom>{props.questionText}</Typography>
-                <DateTimePicker label={props.helperText} />
+                <DateTimePicker label={props.helperText} defaultValue={dayjs('2024-01-01T00:00')}/>
             </ThemeProvider>
         </Container>
     );

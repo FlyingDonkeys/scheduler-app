@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
+import appIcon from "../assets/timely.png";
 
 const handleSignOut = () => {
     const auth = getAuth();
@@ -7,6 +8,7 @@ const handleSignOut = () => {
         // Sign-out successful.
     }).catch((error) => {
         // An error happened.
+        console.log(error);
     });
 }
 
@@ -15,18 +17,20 @@ function Header(){
         <nav className="bg-white shadow dark:bg-gray-800">
             <div
                 className="container flex items-center justify-center p-6 mx-auto text-gray-600 dark:text-gray-300">
+                <img src={appIcon} className={"w-16 h-16 rounded-full mx-1.5 sm:mx-6 justify-start items-start"}/>
                 <Link to="/"
-                   className="text-gray-800 transition-colors duration-300 transform dark:text-gray-200 border-b-2 on hover:border-indigo-600 mx-1.5 sm:mx-6 font-sans">Home</Link>
+                      className="text-gray-800 transition-colors duration-300 transform dark:text-gray-200 border-b-2 on hover:border-indigo-600 mx-1.5 sm:mx-6 font-sans">Home</Link>
 
                 <Link to="/about"
-                   className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6">Features</Link>
+                      className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6">Features</Link>
 
                 <Link to="/addTask"
-                   className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6">Add Task</Link>
+                      className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6">Add
+                    Task</Link>
 
                 <Link to="/"
-                   className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6"
-                    onClick={handleSignOut}>Sign Out</Link>
+                      className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-indigo-600 mx-1.5 sm:mx-6"
+                      onClick={handleSignOut}>Sign Out</Link>
             </div>
         </nav>
     );
