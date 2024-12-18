@@ -18,11 +18,13 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {useState} from "react";
 import {indigo} from "@mui/material/colors";
+import {Link} from "react-router-dom";
 
 import { getFirestore } from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 import {User} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import dayjs from "dayjs";
 
 type TaskFormProps = {
     user: User;
@@ -49,8 +51,8 @@ function TaskForm(taskFormProps: TaskFormProps){
 
     const [taskName, setTaskName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const [startTime, setStartTime] = useState(dayjs('2024-01-01T00:00').toDate());
+    const [endTime, setEndTime] = useState(dayjs('2024-01-01T00:00').toDate());
 
     const handleToggle = (buttonChoice: String) => {
         // Case 1: If user selects an already selected state, toggle between states
@@ -82,19 +84,38 @@ function TaskForm(taskFormProps: TaskFormProps){
         }
     }
 
-    const addTask = () => {
-        // Add a new document in collection "cities", the document id is auto generated!
-        setDoc(doc(db, "Users", taskFormProps.user.uid, "userTasks", taskName), {
-            taskName: {taskName},
-            taskDescription: {taskDescription},
-            country: "USA"
-        }).then(
-            () => {
+    /**
+     * Asynchronously adds a new task to the user's Firestore "userTasks" collection.
+     *
+     * The method creates or updates a document in the "userTasks" sub-collection
+     * of the current user's document in the "Users" collection. The document name
+     * is derived from the `taskName` variable and contains information about the task
+     * such as its name, description, start time, end time, and its priority level.
+     *
+     * The priority of the task is determined by the values of `highPriority`
+     * and `mediumPriority`, defaulting to "low" if neither are set to true.
+     *
+     * If the operation is successful, a success message is logged to the console.
+     * Otherwise, an error message is logged.
+     *
+     * @async
+     * @function
+     * @throws Will log an error message if the document write operation encounters an error.
+     */
+    const addTask = async () => {
+        try {
+            await setDoc(doc(db, "Users", taskFormProps.user.uid, "userTasks", taskName), {
+                taskName,
+                taskDescription,
+                startTime,
+                endTime,
+                priority: highPriority ? "high" : mediumPriority ? "medium" : "low"
+            });
             console.log("Document successfully written!");
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error writing document: ", error);
-        });
-    }
+        }
+    };
 
     // Want to make the input field look nicer
     // Override the primary color
@@ -106,7 +127,16 @@ function TaskForm(taskFormProps: TaskFormProps){
         },
     });
 
-    // Allows task form to update the task name/description values
+    /**
+     * Processes and delegates text input based on the provided identifier.
+     *
+     * Depending on the value of the `id` parameter, this function will call specific
+     * handlers to update corresponding properties using the provided `text` value.
+     *
+     * @param {string} text - The input text to be processed.
+     * @param {string} id - The identifier used to determine which action to perform.
+     *                       Accepted values are "taskName" and "taskDescription".
+     */
     const processTextWithId = (text: string, id: string) => {
         if (id === "taskName") {
             setTaskName(text);
@@ -115,11 +145,32 @@ function TaskForm(taskFormProps: TaskFormProps){
         }
     }
 
+    /**
+     * Processes a given date and associates it with an identifier.
+     *
+     * Depending on the provided `id`, this function sets the appropriate time value
+     * by calling the respective function (`setStartTime` or `setEndTime`) and logs
+     * a message indicating which time has been set.
+     *
+     * @param {Date} date - The date object to be processed.
+     * @param {string} id - The identifier indicating whether to process this date as the start time ("startTime")
+     *                      or the end time ("endTime").
+     */
+    const processDateWithId = (date: Date, id: string) => {
+        if (id === "startTime") {
+            setStartTime(date);
+            console.log("start time has been set")
+        } else if (id === "endTime") {
+            setEndTime(date);
+            console.log("end time has been set")
+        }
+    }
+
     return (
-        <Container className="py-3" style={{height: '100vh'}}>
+        <Container className="py-3" style={{height: '120vh'}}>
             <Typography variant="h4" align={"center"} gutterBottom>Add Task</Typography>
-            <Grid2 container columnSpacing={2} className="py-2">
-                <Grid2 size={3}>
+            <Grid2 container columnSpacing={5} className="py-2">
+                <Grid2 size={4}>
                     <InputField id="taskName" questionText="Task Title" helperText="Input task title" processText={processTextWithId}></InputField>
                 </Grid2>
                 <Grid2 size={4}>
@@ -127,7 +178,7 @@ function TaskForm(taskFormProps: TaskFormProps){
                 </Grid2>
             </Grid2>
 
-            <Grid2 container columnSpacing={2} className="py-2">
+            <Grid2 container columnSpacing={5} className="py-2">
                 <Grid2 size={0.3}>
                 </Grid2>
                 <Grid2>
@@ -136,12 +187,12 @@ function TaskForm(taskFormProps: TaskFormProps){
             </Grid2>
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Grid2 container columnSpacing={2} className="py-2">
-                    <Grid2>
-                        <DateInputField questionText="Start Time" helperText="Pick start time"></DateInputField>
+                <Grid2 container columnSpacing={5} className="py-2">
+                    <Grid2 size={4}>
+                        <DateInputField id="startTime" questionText="Start Time" helperText="Pick start time" processDate={processDateWithId}></DateInputField>
                     </Grid2>
-                    <Grid2>
-                        <DateInputField questionText="End Time" helperText="Pick end time"></DateInputField>
+                    <Grid2 size={4}>
+                        <DateInputField id="endTime" questionText="End Time" helperText="Pick end time" processDate={processDateWithId}></DateInputField>
                     </Grid2>
                 </Grid2>
             </LocalizationProvider>
@@ -160,7 +211,7 @@ function TaskForm(taskFormProps: TaskFormProps){
 
             <Grid2 container alignItems="center" justifyContent="center">
                 <ThemeProvider theme={theme}>
-                    <Button variant="contained" color="primary" onClick={addTask}>Add Task</Button>
+                    <Button component={Link} to="/" variant="contained" color="primary" onClick={addTask}>Add Task</Button>
                 </ThemeProvider>
             </Grid2>
 

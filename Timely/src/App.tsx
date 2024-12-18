@@ -1,7 +1,8 @@
 import Header from "./Components/Header.tsx";
 import Features from "./Components/Features.tsx";
 import Footer from "./Components/Footer.tsx";
-import Card from "./Components/Card.tsx";
+import TaskCollection from "./Components/Task Components/TaskCollection.tsx";
+
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import TaskForm from "./Components/TaskForm.tsx";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -54,7 +55,7 @@ function App() {
                      :  <Router>
                             <Header/>
                             <Routes>
-                                <Route path="/" element={<Card/>} />
+                                <Route path="/" element={<TaskCollection user={user}/>} />
                                 <Route path="/about" element={<Features/>} />
                                 <Route path="/addTask" element={<TaskForm user={user}/>} />
                             </Routes>

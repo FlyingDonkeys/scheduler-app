@@ -59,7 +59,7 @@ function SignInForm(){
     });
 
     return (
-        <Container className="py-3" style={{height: '80vh'}}>
+        <Container className="py-3" style={{height: '70vh'}}>
                 <Grid2 container className="py-2">
                     <Grid2 className="py-2" size={6}>
                         <Typography variant="h4" align={"center"} gutterBottom>Existing User?</Typography>

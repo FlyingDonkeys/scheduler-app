@@ -7,9 +7,9 @@ import {useRef} from "react";
 
 // New data type that defines the shape of the props object
 type InputFieldProps = {
-    id: String;
-    questionText: String;
-    helperText: String;
+    id: string;
+    questionText: string;
+    helperText: string;
     processText: Function;
 }
 
@@ -43,7 +43,7 @@ function MultilineInputField(props:InputFieldProps){
         <Container>
             <ThemeProvider theme={theme}>
                 <Typography variant="h6" gutterBottom>{props.questionText}</Typography>
-                <TextField inputRef={textFieldRef} label={props.helperText} variant="outlined" color="primary" sx={{ width: '300%'}} onChange={handleTextInput} required multiline/>
+                <TextField inputRef={textFieldRef} label={props.helperText} variant="outlined" color="primary" sx={{ width: '240%'}} onChange={handleTextInput} required multiline/>
             </ThemeProvider>
         </Container>
     );

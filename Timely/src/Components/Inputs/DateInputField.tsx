@@ -4,14 +4,17 @@ import Container from "@mui/material/Container";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {indigo} from "@mui/material/colors";
 import {DateTimePicker} from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
+import {useRef} from "react";
 
 // New data type that defines the shape of the props object
 // Question text is the question above the input field
 // Helper text is the helper text within the input field
 type InputFieldProps = {
-    questionText: String;
-    helperText: String;
+    id: string;
+    questionText: string;
+    helperText: string;
+    processDate: Function;
 }
 
 // Want to make the input field look nicer
@@ -27,11 +30,23 @@ const theme = createTheme({
 // Uses the type of this props object
 function DateInputField(props:InputFieldProps){
 
+    // Create a reference for the TextField
+    const textFieldRef = useRef<HTMLInputElement>(null);
+
+    // Safely handle input
+    const handleDateChange = (newValue: Dayjs | null) => {
+        if (newValue) {
+            props.processDate(newValue.toDate(), props.id);
+        } else {
+            console.warn("Date ref is null");
+        }
+    };
+
     return (
         <Container>
             <ThemeProvider theme={theme}>
                 <Typography variant="h6" gutterBottom>{props.questionText}</Typography>
-                <DateTimePicker label={props.helperText} defaultValue={dayjs('2024-01-01T00:00')}/>
+                <DateTimePicker inputRef={textFieldRef} label={props.helperText} defaultValue={dayjs('2024-01-01T00:00')} onChange={handleDateChange} />
             </ThemeProvider>
         </Container>
     );
