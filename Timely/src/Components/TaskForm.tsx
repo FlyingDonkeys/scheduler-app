@@ -192,7 +192,7 @@ function TaskForm(taskFormProps: TaskFormProps){
     }
 
     return (
-        <Container sx={{ py: 3, height: '120vh' }}>
+        <Container sx={{ py: 3 }}>
             <Typography variant="h4" align="center" gutterBottom>
                 Add Task
             </Typography>

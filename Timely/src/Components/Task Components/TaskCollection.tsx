@@ -86,23 +86,26 @@ function TaskCollection(taskCollectionProps: TaskCollection){
         setValue(newValue);
 
         let tasksIncludingSelectedDate = tasks.filter((task) => {
-            const taskStartDate = task.startTime.toDate();
-            const taskEndDate = task.endTime.toDate();
-            const selectedDate = newValue.toDate();
+            const selectedDay = dayjs(newValue).startOf('day');
+            const taskStartDay = dayjs(task.startTime.toDate()).startOf('day');
+            const taskEndDay = dayjs(task.endTime.toDate()).startOf('day');
 
+            // Check if the selectedDay is between taskStartDay and taskEndDay (inclusive)
             const isWithinDuration =
-                taskStartDate <= selectedDate && selectedDate <= taskEndDate;
+                (selectedDay.isSame(taskStartDay) || selectedDay.isAfter(taskStartDay)) &&
+                (selectedDay.isSame(taskEndDay) || selectedDay.isBefore(taskEndDay)) ||
+                selectedDay.isSame(taskEndDay);
 
             if (isWithinDuration) {
                 console.log(
-                    `The task with name ${task.taskName} starts on ${taskStartDate} and ends on ${taskEndDate}.`
+                    `The task "${task.taskName}" starts on ${taskStartDay.toDate()} and ends on ${taskEndDay.toDate()}.`
                 );
                 console.log(
-                    `The selected date ${selectedDate} falls within this task's duration.`
+                    `The selected date ${selectedDay.toDate()} falls within this task's duration.`
                 );
             }
 
-            return isWithinDuration; // Include task if the selected date falls within its duration
+            return isWithinDuration;
         });
 
         setSelectedTasks(tasksIncludingSelectedDate);
@@ -166,7 +169,7 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                             .filter(task => !task.isCompleted)
                             .sort((taskA, taskB) => taskA.startTime.toDate() - taskB.startTime.toDate())
                             .map(task => (
-                                <Grid2 size={12} sx={{ py: 2 }} key={task.taskName}>
+                                <Grid2 size={12} sx={{ py: 2 }}>
                                     <Task
                                         taskName={task.taskName}
                                         taskDescription={task.taskDescription}
