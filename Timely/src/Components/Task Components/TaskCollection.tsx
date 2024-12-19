@@ -128,59 +128,61 @@ function TaskCollection(taskCollectionProps: TaskCollection){
     }, [tasks]); // Runs whenever `tasks` changes
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} >
-            <Container className="py-3">
-                <Grid2 className={"py-2"}>
-                    <Typography variant={"h4"}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Container sx={{ py: 2 }}>
+                <Grid2 sx={{ py: 2 }}>
+                    <Typography variant="h4">
                         My Tasks
                     </Typography>
                 </Grid2>
-                <Grid2 className={"py-2"}>
-                    <Typography variant={"body1"}>
+                <Grid2 sx={{ py: 2 }}>
+                    <Typography variant="body1">
                         Tip: To see all your tasks starting on a certain date, first select a date from the calendar below!
                     </Typography>
                 </Grid2>
-                <hr></hr>
-                <Grid2 className={"py-2"}>
+                <hr />
+                <Grid2 sx={{ py: 2 }}>
                     <DateCalendar value={value} onChange={(newValue: Dayjs) => handleChange(newValue)} />
                 </Grid2>
-
-                <hr></hr>
-
-                <Grid2 className={"py-2"}>
-                    <Typography variant={"h5"} className={"py-2"}>
+                <hr />
+                <Grid2 sx={{ py: 2 }}>
+                    <Typography variant="h5" sx={{ py: 2 }}>
                         Tasks for {value?.format("MMMM D, YYYY")}
                     </Typography>
-                    <Typography variant={"body1"} color={"info"} className={"py-2"}>
+                    <Typography variant="body1" color="info" sx={{ py: 2 }}>
                         Note: Tasks are sorted by default in order of start time from earliest to latest
                     </Typography>
                 </Grid2>
-
-                <Grid2 container className={"py-2"}>
+                <Grid2 container sx={{ py: 2 }}>
                     {/* Dynamically fetch the tasks due on a certain date! */}
-                    {selectedTasks.length === 0 ?
-                        (<Grid2 className={"py-2"}>
-                            <Typography variant={"h6"} align={"center"} gutterBottom>
+                    {selectedTasks.length === 0 ? (
+                        <Grid2 sx={{ py: 2 }}>
+                            <Typography variant="h6" align="center" gutterBottom>
                                 No tasks today!
                             </Typography>
-                        </Grid2>)
-                        : (selectedTasks
+                        </Grid2>
+                    ) : (
+                        selectedTasks
                             .filter(task => !task.isCompleted)
                             .sort((taskA, taskB) => taskA.startTime.toDate() - taskB.startTime.toDate())
-                            .map(task =>
-                            <Grid2 size={12} className={"py-2"}>
-                                <Task taskName={task.taskName} taskDescription={task.taskDescription}
-                                      startTime={task.startTime.toDate()} endTime={task.endTime.toDate()}
-                                      priority={task.priority} isComplete={task.isCompleted}
-                                      toggleCompletion={toggleCompletionStatus}/>
-                                <hr></hr>
-                            </Grid2>)
-                          )
-                    }
+                            .map(task => (
+                                <Grid2 size={12} sx={{ py: 2 }} key={task.taskName}>
+                                    <Task
+                                        taskName={task.taskName}
+                                        taskDescription={task.taskDescription}
+                                        startTime={task.startTime.toDate()}
+                                        endTime={task.endTime.toDate()}
+                                        priority={task.priority}
+                                        isComplete={task.isCompleted}
+                                        toggleCompletion={toggleCompletionStatus}
+                                    />
+                                    <hr />
+                                </Grid2>
+                            ))
+                    )}
                 </Grid2>
-
-                <Grid2 className={"py-2"}>
-                    <Typography variant={"h5"} className={"py-2"}>
+                <Grid2 sx={{ py: 2 }}>
+                    <Typography variant="h5" sx={{ py: 2 }}>
                         Completed tasks for {value?.format("MMMM D, YYYY")}
                     </Typography>
                     <FormControlLabel
@@ -188,28 +190,31 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                         label="Show completed tasks"
                     />
                 </Grid2>
-
                 <Slide direction="up" in={showCompletedTasks} mountOnEnter unmountOnExit>
                     <Grid2 container>
-                        {/* Dynamically fetch the tasks due on a certain date! */}
                         {selectedTasks
                             .filter(task => task.isCompleted)
                             .sort((taskA, taskB) => taskA.startTime.toDate() - taskB.startTime.toDate())
-                            .map(task =>
-                                <Grid2 size={12} className={"py-2"}>
-                                    <Task taskName={task.taskName} taskDescription={task.taskDescription}
-                                          startTime={task.startTime.toDate()} endTime={task.endTime.toDate()}
-                                          priority={task.priority} isComplete={task.isCompleted}
-                                          toggleCompletion={toggleCompletionStatus}/>
-                                    <hr></hr>
-                                </Grid2>)
-                        }
+                            .map(task => (
+                                <Grid2 size={12} sx={{ py: 2 }} key={task.taskName}>
+                                    <Task
+                                        taskName={task.taskName}
+                                        taskDescription={task.taskDescription}
+                                        startTime={task.startTime.toDate()}
+                                        endTime={task.endTime.toDate()}
+                                        priority={task.priority}
+                                        isComplete={task.isCompleted}
+                                        toggleCompletion={toggleCompletionStatus}
+                                    />
+                                    <hr />
+                                </Grid2>
+                            ))}
                     </Grid2>
                 </Slide>
-
             </Container>
         </LocalizationProvider>
     );
+
 }
 
 export default TaskCollection;

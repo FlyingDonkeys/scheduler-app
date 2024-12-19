@@ -192,61 +192,123 @@ function TaskForm(taskFormProps: TaskFormProps){
     }
 
     return (
-        <Container className="py-3" style={{height: '120vh'}}>
-            <Typography variant="h4" align={"center"} gutterBottom>Add Task</Typography>
-            <Grid2 container columnSpacing={5} className="py-2">
+        <Container sx={{ py: 3, height: '120vh' }}>
+            <Typography variant="h4" align="center" gutterBottom>
+                Add Task
+            </Typography>
+            <Grid2 container columnSpacing={5} sx={{ py: 2 }}>
                 <Grid2 size={4}>
-                    <InputField id="taskName" questionText="Task Title" helperText="Input task title" processText={processTextWithId}></InputField>
+                    <InputField
+                        id="taskName"
+                        questionText="Task Title"
+                        helperText="Input task title"
+                        processText={processTextWithId}
+                    />
                 </Grid2>
                 <Grid2 size={4}>
-                    <MultilineInputField id="taskDescription" questionText="Task Description" helperText="Input task description" processText={processTextWithId}></MultilineInputField>
+                    <MultilineInputField
+                        id="taskDescription"
+                        questionText="Task Description"
+                        helperText="Input task description"
+                        processText={processTextWithId}
+                    />
                 </Grid2>
             </Grid2>
 
-            <Grid2 container columnSpacing={3} className="py-2">
-                <Grid2 size={0.2}>
-                </Grid2>
+            <Grid2 container columnSpacing={3} sx={{ py: 2 }}>
+                <Grid2 size={0.2}></Grid2>
                 <Grid2>
-                    <FormHelperText>Note that the task title must be unique.</FormHelperText>
+                    <FormHelperText>
+                        Note that the task title must be unique.
+                    </FormHelperText>
                 </Grid2>
             </Grid2>
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Grid2 container columnSpacing={5} className="py-2">
+                <Grid2 container columnSpacing={5} sx={{ py: 2 }}>
                     <Grid2 size={4}>
-                        <DateInputField id="startTime" questionText="Start Time" helperText="Pick start time" processDate={processDateWithId}></DateInputField>
+                        <DateInputField
+                            id="startTime"
+                            questionText="Start Time"
+                            helperText="Pick start time"
+                            processDate={processDateWithId}
+                        />
                     </Grid2>
                     <Grid2 size={4}>
-                        <DateInputField id="endTime" questionText="End Time" helperText="Pick end time" processDate={processDateWithId}></DateInputField>
+                        <DateInputField
+                            id="endTime"
+                            questionText="End Time"
+                            helperText="Pick end time"
+                            processDate={processDateWithId}
+                        />
                     </Grid2>
                 </Grid2>
             </LocalizationProvider>
 
-            <Grid2 container columnSpacing={2} className="py-2">
+            <Grid2 container columnSpacing={2} sx={{ py: 2 }}>
                 <Grid2>
-                    <Typography variant="h6" align="center" gutterBottom>Task Priority</Typography>
+                    <Typography variant="h6" align="center" gutterBottom>
+                        Task Priority
+                    </Typography>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox color={"error"} checked={highPriority} onChange={() => handleToggle("high")}/>} label="High Priority" />
-                        <FormControlLabel control={<Checkbox color={"warning"} checked={mediumPriority} onChange={() => handleToggle("medium")}/>} label="Medium Priority" />
-                        <FormControlLabel control={<Checkbox color={"success"} checked={lowPriority} onChange={() => handleToggle("low")}/>} label="Low Priority" />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    color="error"
+                                    checked={highPriority}
+                                    onChange={() => handleToggle("high")}
+                                />
+                            }
+                            label="High Priority"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    color="warning"
+                                    checked={mediumPriority}
+                                    onChange={() => handleToggle("medium")}
+                                />
+                            }
+                            label="Medium Priority"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    color="success"
+                                    checked={lowPriority}
+                                    onChange={() => handleToggle("low")}
+                                />
+                            }
+                            label="Low Priority"
+                        />
                     </FormGroup>
-                    <FormHelperText>Please select only one option</FormHelperText>
+                    <FormHelperText>
+                        Please select only one option
+                    </FormHelperText>
                 </Grid2>
             </Grid2>
 
             <Grid2 container>
-                <Grid2 size={12} display={"flex"} alignItems="center" justifyContent="center" className="py-2">
-                    <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
+                <Grid2
+                    size={12}
+                    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}
+                >
+                    <Typography sx={{ color: 'red' }}>{errorMessage}</Typography>
                 </Grid2>
-                <Grid2 size={12} display={"flex"} alignItems="center" justifyContent="center" className="py-2">
+                <Grid2
+                    size={12}
+                    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}
+                >
                     <ThemeProvider theme={theme}>
-                        <Button variant="contained" color="primary" onClick={addTask}>Add Task</Button>
+                        <Button variant="contained" color="primary" onClick={addTask}>
+                            Add Task
+                        </Button>
                     </ThemeProvider>
                 </Grid2>
             </Grid2>
-
         </Container>
-        );
+    );
+
 }
 
 export default TaskForm;
