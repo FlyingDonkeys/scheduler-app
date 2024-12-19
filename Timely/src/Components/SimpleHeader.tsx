@@ -1,12 +1,13 @@
 import appIcon from "../assets/timely.png";
+import {IconButton, Toolbar} from "@mui/material";
 
 function SimpleHeader(){
     return (
-        <nav className="bg-white shadow dark:bg-gray-800">
-            <div className="container flex items-start justify-start p-6 mx-auto text-gray-600 dark:text-gray-300">
-                <img src={appIcon} className={"w-16 h-16 rounded-full"}/>
-            </div>
-        </nav>
+        <Toolbar>
+            <IconButton edge="start" color="inherit" sx={{ mr: 2 }}>
+                <img src={appIcon} alt="App Icon" style={{ width: 64, height: 64, borderRadius: '50%' }} />
+            </IconButton>
+        </Toolbar>
 );
 }
 
