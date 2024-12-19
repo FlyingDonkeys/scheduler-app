@@ -23,7 +23,7 @@ import { getFirestore } from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 import {User} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import InvalidInputError from "../Errors/InvalidInputError.tsx";
 import InvalidTimeError from "../Errors/InvalidTimeError.tsx";
 import {useState} from "react";
