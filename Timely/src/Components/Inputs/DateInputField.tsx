@@ -46,7 +46,7 @@ function DateInputField(props:InputFieldProps){
         <Container>
             <ThemeProvider theme={theme}>
                 <Typography variant="h6" gutterBottom>{props.questionText}</Typography>
-                <DateTimePicker inputRef={textFieldRef} label={props.helperText} defaultValue={dayjs('2024-01-01T00:00')} onChange={handleDateChange} />
+                <DateTimePicker inputRef={textFieldRef} label={props.helperText} defaultValue={dayjs(new Date().setHours(0,0,0,0))} onChange={handleDateChange} />
             </ThemeProvider>
         </Container>
     );

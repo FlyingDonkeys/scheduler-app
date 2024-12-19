@@ -16,15 +16,17 @@ import {
 import Container from "@mui/material/Container";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {useState} from "react";
 import {indigo} from "@mui/material/colors";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import { getFirestore } from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 import {User} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import dayjs from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
+import InvalidInputError from "../Errors/InvalidInputError.tsx";
+import InvalidTimeError from "../Errors/InvalidTimeError.tsx";
+import {useState} from "react";
 
 type TaskFormProps = {
     user: User;
@@ -45,14 +47,27 @@ function TaskForm(taskFormProps: TaskFormProps){
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const [highPriority, setHighPriority] = useState(false);
+    const [highPriority, setHighPriority] = useState(true);
     const [mediumPriority, setMediumPriority] = useState(false);
     const [lowPriority, setLowPriority] = useState(false);
 
     const [taskName, setTaskName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
-    const [startTime, setStartTime] = useState(dayjs('2024-01-01T00:00').toDate());
-    const [endTime, setEndTime] = useState(dayjs('2024-01-01T00:00').toDate());
+    const [startTime, setStartTime] = useState(dayjs(new Date().setHours(0,0,0,0)).toDate());
+    const [endTime, setEndTime] = useState(dayjs(new Date().setHours(0,0,0,0)).toDate());
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate();
+
+    // Want to make the input field look nicer
+    // Override the primary color
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: indigo[600]
+            },
+        },
+    });
 
     const handleToggle = (buttonChoice: String) => {
         // Case 1: If user selects an already selected state, toggle between states
@@ -104,28 +119,38 @@ function TaskForm(taskFormProps: TaskFormProps){
      */
     const addTask = async () => {
         try {
+            if (taskName === "") {
+                throw new InvalidInputError("Task name cannot be empty!");
+            } else if (startTime > endTime) {
+                throw new InvalidTimeError("Start time must be before end time!");
+            } else if (startTime < dayjs().toDate()) {
+                throw new InvalidTimeError("Start time must be in the future!");
+            } else if (endTime < dayjs().toDate()) {
+                throw new InvalidTimeError("End time must be in the future!");
+            }
+
             await setDoc(doc(db, "Users", taskFormProps.user.uid, "userTasks", taskName), {
                 taskName,
                 taskDescription,
                 startTime,
                 endTime,
-                priority: highPriority ? "high" : mediumPriority ? "medium" : "low"
+                priority: highPriority ? "high" : mediumPriority ? "medium" : "low",
+                isCompleted: false
             });
             console.log("Document successfully written!");
+            navigate("/");
         } catch (error) {
-            console.error("Error writing document: ", error);
+            if (error instanceof InvalidInputError) {
+                console.error(error.message);
+                setErrorMessage(error.message);
+            } else if (error instanceof InvalidTimeError) {
+                console.error(error.message);
+                setErrorMessage(error.message);
+            } else {
+                console.error("Unhandled error occured");
+            }
         }
     };
-
-    // Want to make the input field look nicer
-    // Override the primary color
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: indigo[600]
-            },
-        },
-    });
 
     /**
      * Processes and delegates text input based on the provided identifier.
@@ -178,11 +203,11 @@ function TaskForm(taskFormProps: TaskFormProps){
                 </Grid2>
             </Grid2>
 
-            <Grid2 container columnSpacing={5} className="py-2">
-                <Grid2 size={0.3}>
+            <Grid2 container columnSpacing={3} className="py-2">
+                <Grid2 size={0.2}>
                 </Grid2>
                 <Grid2>
-                    <FormHelperText sx={{color:"red"}}>Note that the task title must be unique.</FormHelperText>
+                    <FormHelperText>Note that the task title must be unique.</FormHelperText>
                 </Grid2>
             </Grid2>
 
@@ -209,10 +234,15 @@ function TaskForm(taskFormProps: TaskFormProps){
                 </Grid2>
             </Grid2>
 
-            <Grid2 container alignItems="center" justifyContent="center">
-                <ThemeProvider theme={theme}>
-                    <Button component={Link} to="/" variant="contained" color="primary" onClick={addTask}>Add Task</Button>
-                </ThemeProvider>
+            <Grid2 container>
+                <Grid2 size={12} display={"flex"} alignItems="center" justifyContent="center" className="py-2">
+                    <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
+                </Grid2>
+                <Grid2 size={12} display={"flex"} alignItems="center" justifyContent="center" className="py-2">
+                    <ThemeProvider theme={theme}>
+                        <Button variant="contained" color="primary" onClick={addTask}>Add Task</Button>
+                    </ThemeProvider>
+                </Grid2>
             </Grid2>
 
         </Container>
