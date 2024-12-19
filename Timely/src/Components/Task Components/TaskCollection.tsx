@@ -179,8 +179,6 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                     }
                 </Grid2>
 
-                <hr></hr>
-
                 <Grid2 className={"py-2"}>
                     <Typography variant={"h5"} className={"py-2"}>
                         Completed tasks for {value?.format("MMMM D, YYYY")}
