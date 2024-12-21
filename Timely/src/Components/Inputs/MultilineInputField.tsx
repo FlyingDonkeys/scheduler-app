@@ -24,6 +24,18 @@ const theme = createTheme({
 });
 
 // Uses the type of this props object
+/**
+ * A component for rendering a multiline text input field with additional functionality.
+ * Allows the user to input text and processes it using a provided callback function.
+ * Functionally identical to InputField, just that this Component has a multiline text field.
+ *
+ * @param {InputFieldProps} props - The properties passed to the component.
+ * @param {string} props.questionText - The question or label text displayed above the input field.
+ * @param {string} props.helperText - The helper text displayed within the input field as a placeholder or label.
+ * @param {function} props.processText - The callback function used to process the text input. Receives two arguments: the current text input value and the unique identifier of the field.
+ * @param {string} props.id - A unique identifier for the input field.
+ * @return {JSX.Element} The rendered multiline input field component.
+ */
 function MultilineInputField(props:InputFieldProps){
 
     // Create a reference for the TextField

@@ -1,50 +1,114 @@
-# React + TypeScript + Vite
+# Timely - Task Planner Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Timely is a feature-rich task planner designed to help individuals organize, track, and manage their daily tasks and schedules efficiently. The application is built using React, Vite, and Firebase, leveraging Material-UI (MUI) for a polished, responsive user interface.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Core Functionalities
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Adding Tasks**
+    - Specify task details like:
+        - ✍️ Task title: A short, descriptive name.
+        - 🗚 Description: Detailed information about the task.
+        - 📅 Due date: Deadline to complete the task.
+        - 🔥 Priority level: High, medium, or low.
 
-- Configure the top-level `parserOptions` property like this:
+- **Task Organization (Planned)**
+    - Group tasks using categories or tags.
+    - Search and filter tasks by keywords, priority, or tags.
+    - Sort tasks by start time, priority, or status (default sorting is by start time).
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Task Editing (Planned)**
+    - Modify task details, priorities, or due dates.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **Tracking Progress**
+    - View an overview of completed and remaining tasks.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Task Calendar**
+    - Select a date to view tasks starting on that day.
+    - Toggle visibility of completed tasks.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+## Tech Stack
+
+### Frontend
+- **React**: For building reusable UI components.
+- **Vite**: For a fast development environment and optimized build.
+- **Material-UI (MUI)**: For a modern, responsive design.
+- **Day.js**: For manipulating and displaying dates and times.
+
+### Backend
+- **Firebase Authentication**: Handles user sign-in and sign-up.
+- **Firestore**: A cloud database for storing user tasks securely.
+
+### Deployment
+- **Railway**: For deploying the application with ease and scalability.
+
+---
+
+## Setup and Installation
+
+### Prerequisites
+- Node.js and npm installed.
+- Firebase project configured with Firestore and Authentication.
+
+### Steps
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-repo/timely.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd timely
+    ```
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+4. Run the application:
+    ```bash
+    npm run dev
+    ```
+5. Open your browser and navigate to the displayed local development URL.
+
+---
+
+## How to Use
+
+1. **Sign Up or Log In**
+    - Create an account or log in using your email and password.
+
+2. **Add a Task**
+    - Fill out the task form with details including title, description, start time, end time, and priority.
+
+3. **View Tasks**
+    - Navigate to the calendar to select a date and view tasks starting on that day.
+
+4. **Track Progress**
+    - Mark tasks as completed or view completed tasks by toggling the completion switch.
+
+5. **Organize and Edit Tasks** (Coming Soon)
+    - Features for tagging, searching, and editing tasks are planned for future updates.
+
+---
+
+## Contributing
+Contributions are welcome! If you have suggestions for new features or improvements, please open an issue or create a pull request.
+
+---
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+## Acknowledgments
+- Icons from Material-UI.
+- Powered by Firebase.
+
+---
+
+Start managing your tasks effectively with Timely today!

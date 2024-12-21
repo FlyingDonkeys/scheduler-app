@@ -28,6 +28,18 @@ const theme = createTheme({
 });
 
 // Uses the type of this props object
+/**
+ * Renders a date input field component with a label and a date-time picker.
+ * It provides functionality to handle and process the selected date using a callback function.
+ *
+ * @param {InputFieldProps} props - The properties for the date input field component.
+ * @param {string} props.id - A unique identifier for the input field.
+ * @param {string} props.questionText - A string displayed as the label or question related to the date input.
+ * @param {string} props.helperText - A helper text displayed as the label for the date-time picker.
+ * @param {function} props.processDate - A callback function to handle the date input value and its corresponding id.
+ *
+ * @return {JSX.Element} A container including a styled date-time picker and related text fields.
+ */
 function DateInputField(props:InputFieldProps){
 
     // Create a reference for the TextField

@@ -24,6 +24,16 @@ const theme = createTheme({
 });
 
 // Uses the type of this props object
+/**
+ * A functional component that renders an input field inside a themed container. It captures user input and processes it using the provided callback.
+ *
+ * @param {InputFieldProps} props - The properties for the InputField component.
+ * @param {string} props.id - A unique identifier for the input field.
+ * @param {string} props.helperText - Text displayed as the input field's helper or label.
+ * @param {string} props.questionText - Text rendered as the label for the input field.
+ * @param {function} props.processText - A callback function to process the typed input. It takes the current value and the field ID as arguments.
+ * @return {JSX.Element} Returns a JSX element containing the themed input field component.
+ */
 function InputField(props:InputFieldProps){
 
     // Create a reference for the TextField

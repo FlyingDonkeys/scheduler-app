@@ -32,6 +32,18 @@ type TaskFormProps = {
     user: User;
 }
 
+/**
+ * A React functional component that provides a form interface for creating and managing tasks.
+ *
+ * The `TaskForm` component includes inputs for task details such as the task title, description,
+ * start time, end time, and priority level. It handles user interactions, updates state variables,
+ * and manages validation before saving the task information to Firestore. Additionally, it provides
+ * visual feedback and guidance for the user.
+ *
+ * @param {TaskFormProps} taskFormProps - Properties required for initializing and rendering the TaskForm component,
+ *                                        including user context or other configuration properties.
+ * @return {JSX.Element} Returns a JSX element representing the TaskForm component.
+ */
 function TaskForm(taskFormProps: TaskFormProps){
 
     const firebaseConfig = {
@@ -47,6 +59,7 @@ function TaskForm(taskFormProps: TaskFormProps){
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Priority is set to high by default
     const [highPriority, setHighPriority] = useState(true);
     const [mediumPriority, setMediumPriority] = useState(false);
     const [lowPriority, setLowPriority] = useState(false);
@@ -69,6 +82,16 @@ function TaskForm(taskFormProps: TaskFormProps){
         },
     });
 
+    /**
+     * Toggles priority states based on the user's selection.
+     *
+     * This function handles priority toggling logic for high, medium, and low
+     * priority states. If the selected priority matches the current active
+     * priority, it toggles the state off. Otherwise, it triggers the appropriate
+     * priority toggle for the given choice.
+     *
+     * @param {String} buttonChoice - The priority level selected by the user ("high", "medium", or "low").
+     */
     const handleToggle = (buttonChoice: String) => {
         // Case 1: If user selects an already selected state, toggle between states
         if (highPriority && buttonChoice === "high") {
@@ -100,22 +123,20 @@ function TaskForm(taskFormProps: TaskFormProps){
     }
 
     /**
-     * Asynchronously adds a new task to the user's Firestore "userTasks" collection.
+     * Asynchronously adds a new task to the database after validating the input properties.
      *
-     * The method creates or updates a document in the "userTasks" sub-collection
-     * of the current user's document in the "Users" collection. The document name
-     * is derived from the `taskName` variable and contains information about the task
-     * such as its name, description, start time, end time, and its priority level.
+     * This function performs several checks to ensure the task data is valid:
+     * - The task name must not be empty.
+     * - The start time must be before the end time.
+     * - Both the start and end times must be in the future.
      *
-     * The priority of the task is determined by the values of `highPriority`
-     * and `mediumPriority`, defaulting to "low" if neither are set to true.
-     *
-     * If the operation is successful, a success message is logged to the console.
-     * Otherwise, an error message is logged.
+     * If validation passes, the task is added to the user's task collection in the database
+     * and the user is navigated to the home page. If validation fails or an error occurs,
+     * appropriate error messages are logged and the error state is updated.
      *
      * @async
-     * @function
-     * @throws Will log an error message if the document write operation encounters an error.
+     * @throws {InvalidInputError} Thrown when the task name is empty.
+     * @throws {InvalidTimeError} Thrown when the start time is greater than the end time or when the start/end times are not in the future.
      */
     const addTask = async () => {
         try {
@@ -153,14 +174,14 @@ function TaskForm(taskFormProps: TaskFormProps){
     };
 
     /**
-     * Processes and delegates text input based on the provided identifier.
+     * Updates a specific text field based on the provided identifier.
      *
-     * Depending on the value of the `id` parameter, this function will call specific
-     * handlers to update corresponding properties using the provided `text` value.
-     *
-     * @param {string} text - The input text to be processed.
-     * @param {string} id - The identifier used to determine which action to perform.
-     *                       Accepted values are "taskName" and "taskDescription".
+     * @param {string} text - The text to be set.
+     * @param {string} id - The identifier used to determine the field to update.
+     *                      It should match one of the predefined field identifiers.
+     *                      Expected values:
+     *                      - "taskName": Updates the task name.
+     *                      - "taskDescription": Updates the task description.
      */
     const processTextWithId = (text: string, id: string) => {
         if (id === "taskName") {
@@ -171,15 +192,13 @@ function TaskForm(taskFormProps: TaskFormProps){
     }
 
     /**
-     * Processes a given date and associates it with an identifier.
+     * Processes a given date based on the provided identifier and sets
+     * the corresponding time value. Logs a message indicating whether
+     * the start time or end time has been set.
      *
-     * Depending on the provided `id`, this function sets the appropriate time value
-     * by calling the respective function (`setStartTime` or `setEndTime`) and logs
-     * a message indicating which time has been set.
-     *
-     * @param {Date} date - The date object to be processed.
-     * @param {string} id - The identifier indicating whether to process this date as the start time ("startTime")
-     *                      or the end time ("endTime").
+     * @param {Date} date - The date to be processed and set.
+     * @param {string} id - The identifier determining the type of time
+     *                      to be set. Accepts "startTime" or "endTime".
      */
     const processDateWithId = (date: Date, id: string) => {
         if (id === "startTime") {
