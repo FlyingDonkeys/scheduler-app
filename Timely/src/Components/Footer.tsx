@@ -2,6 +2,7 @@ import { Box, Container, Typography, IconButton, Link } from "@mui/material";
 import RedditIcon from "@mui/icons-material/Reddit";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import {Instagram} from "@mui/icons-material";
 
 function Footer() {
     const currentDate = new Date().getFullYear();
@@ -27,7 +28,7 @@ function Footer() {
                 {/* Social Icons */}
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <IconButton
-                        href="#"
+                        href="https://www.reddit.com/user/ThaEpicurean/"
                         target="_blank"
                         rel="noopener noreferrer"
                         color="default"
@@ -36,16 +37,16 @@ function Footer() {
                         <RedditIcon />
                     </IconButton>
                     <IconButton
-                        href="#"
+                        href="https://www.instagram.com/teemointhebush"
                         target="_blank"
                         rel="noopener noreferrer"
                         color="default"
-                        aria-label="Facebook"
+                        aria-label="Instagram"
                     >
-                        <FacebookIcon />
+                        <Instagram />
                     </IconButton>
                     <IconButton
-                        href="#"
+                        href="https://github.com/FlyingDonkeys"
                         target="_blank"
                         rel="noopener noreferrer"
                         color="default"
