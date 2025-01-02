@@ -1,6 +1,5 @@
 import { Box, Container, Typography, IconButton, Link } from "@mui/material";
 import RedditIcon from "@mui/icons-material/Reddit";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import {Instagram} from "@mui/icons-material";
 
