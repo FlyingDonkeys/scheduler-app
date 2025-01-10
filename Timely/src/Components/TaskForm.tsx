@@ -59,13 +59,12 @@ function TaskForm(taskFormProps: TaskFormProps){
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Priority is set to high by default
-    const [highPriority, setHighPriority] = useState(true);
+    const [highPriority, setHighPriority] = useState(false);
     const [mediumPriority, setMediumPriority] = useState(false);
     const [lowPriority, setLowPriority] = useState(false);
 
     const [taskName, setTaskName] = useState("");
-    const [taskDescription, setTaskDescription] = useState("");
+    const [taskDescription, setTaskDescription] = useState("No description provided.");
     const [startTime, setStartTime] = useState(dayjs(new Date().setHours(0,0,0,0)).toDate());
     const [endTime, setEndTime] = useState(dayjs(new Date().setHours(0,0,0,0)).toDate());
     const [errorMessage, setErrorMessage] = useState("");
@@ -155,7 +154,9 @@ function TaskForm(taskFormProps: TaskFormProps){
                 taskDescription,
                 startTime,
                 endTime,
-                priority: highPriority ? "high" : mediumPriority ? "medium" : "low",
+                priority: highPriority ? "high" :
+                    mediumPriority ? "medium" :
+                        lowPriority ? "low" : "none",
                 isCompleted: false
             });
             console.log("Document successfully written!");

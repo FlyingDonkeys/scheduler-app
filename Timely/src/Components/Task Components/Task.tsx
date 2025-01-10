@@ -30,8 +30,10 @@ function Task(taskProps: TaskProps){
             return "error";
         } else if (taskProps.priority === "medium") {
             return "warning";
-        } else {
+        } else if (taskProps.priority === "low") {
             return "success";
+        } else {
+            return "primary"
         }
     }
 
