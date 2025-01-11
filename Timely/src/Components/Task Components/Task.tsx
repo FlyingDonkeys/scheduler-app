@@ -10,6 +10,7 @@ type TaskProps = {
     priority: string;
     isComplete: boolean;
     toggleCompletion: Function;
+    deleteTask: Function;
 }
 
 // Want to make the input field look nicer
@@ -41,6 +42,10 @@ function Task(taskProps: TaskProps){
         taskProps.toggleCompletion(taskProps.taskName);
     }
 
+    function deleteTask() {
+        taskProps.deleteTask(taskProps.taskName);
+    }
+
     return (
         <Card>
             <CardContent>
@@ -51,7 +56,7 @@ function Task(taskProps: TaskProps){
                     <Typography className={"py-2"} variant={"body1"} color={determineColor()}>Priority: {taskProps.priority}</Typography>
             </CardContent>
             <CardActions style={{ justifyContent: "center" }}>
-                <Grid2 container spacing={2}>
+                <Grid2 container spacing={3}>
                     <ThemeProvider theme={theme}>
                         {taskProps.isComplete ? <Grid2>
                                                     <Button variant="contained" onClick={toggleCompletionStatus}>Unmark Completed</Button>
@@ -60,6 +65,9 @@ function Task(taskProps: TaskProps){
                                                     <Button variant="contained" onClick={toggleCompletionStatus}>Mark Completed</Button>
                                                 </Grid2>
                         }
+                        <Grid2>
+                            <Button variant="contained" onClick={deleteTask}>Delete</Button>
+                        </Grid2>
                     </ThemeProvider>
                 </Grid2>
             </CardActions>
