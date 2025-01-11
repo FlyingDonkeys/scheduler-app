@@ -1,6 +1,6 @@
 import {User} from "firebase/auth";
 import {initializeApp} from "firebase/app";
-import {doc, getDoc, updateDoc, collection, getDocs, getFirestore, DocumentData} from "firebase/firestore";
+import {doc, getDoc, updateDoc, collection, getDocs, getFirestore, DocumentData, deleteDoc} from "firebase/firestore";
 import {DateCalendar, LocalizationProvider} from "@mui/x-date-pickers";
 import dayjs, {Dayjs} from "dayjs";
 import {useEffect, useState} from "react";
@@ -78,6 +78,19 @@ function TaskCollection(taskCollectionProps: TaskCollection){
             console.log("Task " + taskName + " does not exist!");
         }
     };
+
+    const deleteTask = async (taskName: string) => {
+        console.log("Deleting task " + taskName);
+
+        // Get the document reference of the task to be marked completed
+        const docRef = doc(db, "Users", taskCollectionProps.user.uid, "userTasks", taskName);
+
+        // Delete the doc that is specified by this reference
+        await deleteDoc(docRef);
+
+        // Refresh the task list using getTasks (useEffect hook will then trigger)
+        await getTasks();
+    }
 
     const handleChange = (newValue: Dayjs | null) => {
         if (!newValue) return;
@@ -178,6 +191,7 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                                         priority={task.priority}
                                         isComplete={task.isCompleted}
                                         toggleCompletion={toggleCompletionStatus}
+                                        deleteTask={deleteTask}
                                     />
                                     <hr />
                                 </Grid2>
@@ -208,6 +222,7 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                                         priority={task.priority}
                                         isComplete={task.isCompleted}
                                         toggleCompletion={toggleCompletionStatus}
+                                        deleteTask={deleteTask}
                                     />
                                     <hr />
                                 </Grid2>
