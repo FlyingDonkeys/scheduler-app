@@ -166,7 +166,7 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                         Tasks for {value?.format("MMMM D, YYYY")}
                     </Typography>
                     <Typography variant="body1" color="info" sx={{ py: 2 }}>
-                        Note: Tasks are sorted by default in order of start time from earliest to latest
+                        Note: Tasks ending first are displayed on top of the list!
                     </Typography>
                 </Grid2>
                 <Grid2 container sx={{ py: 2 }}>

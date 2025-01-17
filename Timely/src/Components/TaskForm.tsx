@@ -169,7 +169,7 @@ function TaskForm(taskFormProps: TaskFormProps){
                 console.error(error.message);
                 setErrorMessage(error.message);
             } else {
-                console.error(error.toString());
+                console.error("Error adding task: ", error);
             }
         }
     };
