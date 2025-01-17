@@ -180,7 +180,7 @@ function TaskCollection(taskCollectionProps: TaskCollection){
                     ) : (
                         selectedTasks
                             .filter(task => !task.isCompleted)
-                            .sort((taskA, taskB) => taskA.startTime.toDate() - taskB.startTime.toDate())
+                            .sort((taskA, taskB) => taskA.endTime.toDate() - taskB.endTime.toDate())
                             .map(task => (
                                 <Grid2 size={12} sx={{ py: 2 }}>
                                     <Task

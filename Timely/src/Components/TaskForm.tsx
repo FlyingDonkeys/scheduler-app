@@ -169,7 +169,7 @@ function TaskForm(taskFormProps: TaskFormProps){
                 console.error(error.message);
                 setErrorMessage(error.message);
             } else {
-                console.error("Unhandled error occured");
+                console.error(error.toString());
             }
         }
     };
